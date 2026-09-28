@@ -23,6 +23,7 @@ import {
   Shield,
   CalendarCheck,
   LogOut,
+  Megaphone,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import LogoutButton from "@/features/Auth/logout/components/LogoutButton";
@@ -97,6 +98,12 @@ function uiReducer(state: UIState, action: UIAction): UIState {
 const BASE_LINKS: NavLink[] = [
   { name: "Home", href: "/", icon: Home, description: "Discover your next stay" },
   { name: "Explore", href: "/rooms", icon: Compass, description: "Find the perfect room" },
+  {
+  name: "Ads",
+  href: "/ads",
+  icon: Megaphone,
+  description: "Discover special offers and deals",
+},
 ];
 
 const FAVORITES_LINK: NavLink = {
@@ -489,7 +496,7 @@ function Navbar({ user }: NavbarProps) {
                   Login
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/register"
                   className="rounded-full bg-[#4E604F] px-5 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#3F4F40] hover:shadow-md active:scale-[0.98]"
                 >
                   Sign Up
@@ -641,7 +648,7 @@ function Navbar({ user }: NavbarProps) {
                         Login
                       </Link>
                       <Link
-                        href="/signup"
+                        href="/register"
                         onClick={closeAll}
                         className="flex h-11 items-center justify-center rounded-xl bg-[#4E604F] text-sm font-semibold text-white shadow-sm transition hover:bg-[#3F4F40]"
                       >

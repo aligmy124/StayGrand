@@ -40,28 +40,8 @@ export default function VerifyForm() {
       role="main"
       aria-label="Email verification page"
     >
-      {/* Background */}
-      <div className="absolute inset-0" aria-hidden="true">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/images/hero2.jpg')",
-          }}
-        />
-
-        {/* Dark cinematic overlay */}
-        <div className="absolute inset-0 bg-black/55" />
-
-        {/* Soft gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1c251d]/80 via-black/30 to-black/70" />
-
-        {/* Ambient light */}
-        <div className="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-[#7d9078]/20 blur-[120px]" />
-        <div className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#c7a86b]/15 blur-[120px]" />
-      </div>
-
       {/* Main */}
-      <div className="relative z-10 flex min-h-[calc(100vh-88px)] items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
         <div className="grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/20 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl lg:grid-cols-[0.9fr_1.1fr]">
           
           {/* Left / Hotel Branding */}
@@ -69,7 +49,39 @@ export default function VerifyForm() {
             className="relative hidden min-h-[650px] flex-col items-center justify-center overflow-hidden p-10 lg:flex xl:p-14"
             aria-label="Hotel branding and verification message"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+            {/* Background image confined to this section only */}
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{
+                backgroundImage: "url('/images/hero2.jpg')",
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Dark cinematic overlay */}
+            <div className="absolute inset-0 bg-black/55" aria-hidden="true" />
+
+            {/* Soft gradient */}
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-[#1c251d]/80 via-black/30 to-black/70"
+              aria-hidden="true"
+            />
+
+            {/* Ambient light */}
+            <div
+              className="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-[#7d9078]/20 blur-[120px]"
+              aria-hidden="true"
+            />
+            <div
+              className="absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#c7a86b]/15 blur-[120px]"
+              aria-hidden="true"
+            />
+
+            {/* Extra top-down gradient for text legibility */}
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+              aria-hidden="true"
+            />
 
             <div className="relative z-10 max-w-md text-center">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md">
