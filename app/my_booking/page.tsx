@@ -1,9 +1,33 @@
 import { Suspense } from "react";
-import { getMyBookings } from "@/features/Booking/service/booking.service";
 import Link from "next/link";
-import MyBookingCard from "@/features/Booking/components/MyBookingCard";
+import type { Metadata } from "next";
+import { getMyBookings } from "@/features/portal/Booking/service/booking.service";
+import MyBookingCard from "@/features/portal/Booking/components/MyBookingCard";
 import { BookingsLoading } from "@/Shared/Components/SkeletonBooking";
 
+/* ============ Metadata ============ */
+export const metadata: Metadata = {
+  title: "My Bookings",
+  description:
+    "View and manage all your reservations. Track booking status, dates, and details in one place.",
+  openGraph: {
+    title: "My Bookings",
+    description:
+      "View and manage all your reservations. Track booking status, dates, and details in one place.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "My Bookings",
+    description: "View and manage all your reservations.",
+  },
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+/* ============ Types ============ */
 interface BookingsPageProps {
   searchParams: Promise<{
     page?: string;
@@ -11,10 +35,7 @@ interface BookingsPageProps {
   }>;
 }
 
-/* -------------------------------- */
-/* Bookings Data                    */
-/* -------------------------------- */
-
+/* ============ Content ============ */
 async function BookingsContent({
   searchParams,
 }: {
@@ -56,22 +77,23 @@ async function BookingsContent({
       </div>
 
       {/* Bookings */}
-      <section>
+      <section aria-label="Your bookings list">
         <MyBookingCard bookings={bookings} />
       </section>
     </>
   );
 }
+
+/* ============ Page ============ */
 export default function BookingsPage({ searchParams }: BookingsPageProps) {
   return (
     <main className="min-h-screen bg-[#F7F8F5] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        {/* Header renders immediately */}
-
+        {/* Header */}
         <div className="mb-8">
           <Link
             href="/"
-            className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-[#4E604F] transition-colors hover:text-[#3F4F40]"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-[#4E604F] transition-colors hover:text-[#3F4F40] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4E604F]/30 focus-visible:ring-offset-2 rounded"
           >
             ← Back to home
           </Link>

@@ -1,28 +1,54 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Pagination from "@/Shared/Components/Pagination";
 import { getFacilitiesService } from "@/features/admin/facilities/services/facility.service";
 import FacilityHeader from "@/features/admin/facilities/components/FacilityHeader";
 import FacilitiesTable from "@/features/admin/facilities/components/FacilitiesTable";
 
+/* ============ Metadata ============ */
+export const metadata: Metadata = {
+  title: "Facilities Management",
+  description:
+    "Manage all room facilities and amenities. Create, edit, and organize facilities for your rooms.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  openGraph: {
+    title: "Facilities Management",
+    description:
+      "Manage all room facilities and amenities. Create, edit, and organize facilities for your rooms.",
+    type: "website",
+  },
+};
+
+/* ============ Types ============ */
 interface FacilitiesPageProps {
   searchParams: Promise<{ page?: string; size?: string }>;
 }
 
+/* ============ Data ============ */
 async function FacilitiesContent({ searchParams }: FacilitiesPageProps) {
   const { page, size } = await searchParams;
+
   const pageNumber = Number(page);
+  const sizeNumber = Number(size);
+
   const currentPage =
     Number.isInteger(pageNumber) && pageNumber > 0 ? pageNumber : 1;
-  const sizeNumber = Number(size);
+
   const currentSize =
-    Number.isInteger(sizeNumber) && sizeNumber > 0 ? sizeNumber : 10;
+    Number.isInteger(sizeNumber) && sizeNumber > 0 && sizeNumber <= 100
+      ? sizeNumber
+      : 10;
 
   const facilities = await getFacilitiesService({
     page: currentPage,
     size: currentSize,
   });
-  const totalCount = facilities?.data?.totalCount ?? 0;
-  const totalPages = Math.ceil(totalCount / currentSize);
+
+  const totalCount = facilities.data.totalCount ?? 0;
+  const totalPages = Math.max(1, Math.ceil(totalCount / currentSize));
 
   return (
     <>
@@ -31,11 +57,14 @@ async function FacilitiesContent({ searchParams }: FacilitiesPageProps) {
         totalCount={totalCount}
       />
       <FacilitiesTable facilities={facilities.data.facilities} />
-      <Pagination page={currentPage} totalPages={totalPages} />
+      {totalPages > 1 && (
+        <Pagination page={currentPage} totalPages={totalPages} />
+      )}
     </>
   );
 }
 
+/* ============ Page ============ */
 export default function FacilitiesPage({ searchParams }: FacilitiesPageProps) {
   return (
     <div className="space-y-6">

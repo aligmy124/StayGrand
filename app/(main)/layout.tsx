@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import NavbarWrapper from "@/features/home/components/Navbar/NavbarWrapper";
+import NavbarWrapper from "@/features/portal/home/components/Navbar/NavbarWrapper";
 
 export default function MainLayout({
   children,

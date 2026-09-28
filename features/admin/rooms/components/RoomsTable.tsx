@@ -365,7 +365,7 @@ export default function RoomsTable({ rooms }: IRoomProps) {
                               View
                             </Link>
                             <Link
-                              href={`/admin/dashboard/rooms/${room._id}/edit`}
+                              href={`/dashboard/rooms/${room._id}/edit`}
                               className="flex items-center gap-2 px-3 py-2 text-sm text-[#4E604F] hover:bg-[#F4F6F2]"
                             >
                               <Edit3 className="h-3.5 w-3.5" />

@@ -351,7 +351,7 @@ export default function BookingsTable({ bookings }: BookingsTableProps) {
                     </span>
                     <div className="flex items-center gap-1">
                       <Link
-                        href={`/admin/dashboard/bookings/${booking._id}`}
+                        href={`/dashboard/bookings/${booking._id}`}
                         className="flex h-8 w-8 items-center justify-center rounded-lg text-[#666B65] hover:bg-[#F4F6F2] hover:text-[#4E604F]"
                       >
                         <Eye className="h-4 w-4" />

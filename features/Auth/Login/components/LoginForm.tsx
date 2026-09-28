@@ -42,13 +42,17 @@ export default function LoginForm() {
       return;
     }
 
-   toast.success(result.message);
-   router.replace(redirect || result.role == "admin" ? "/dashboard" : "/");
-   router.refresh();
+    toast.success(result.message);
+    const destination =
+      redirect || (result.role === "admin" ? "/dashboard" : "/");
+
+    router.replace(destination);
+    router.refresh();
+    router.refresh();
   };
 
   return (
-    <main 
+    <main
       className="relative min-h-screen overflow-hidden bg-[#f4f1eb]"
       role="main"
       aria-label="Login page"
@@ -76,17 +80,22 @@ export default function LoginForm() {
       {/* Main */}
       <div className="relative z-10 flex min-h-[calc(100vh-88px)] items-center justify-center px-4 py-10 sm:px-6 lg:px-10">
         <div className="grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-white/20 bg-white/10 shadow-2xl shadow-black/30 backdrop-blur-xl lg:grid-cols-[0.9fr_1.1fr]">
-          
           {/* Left / Hotel Visual */}
-          <section 
+          <section
             className="relative hidden min-h-[650px] flex-col justify-center overflow-hidden p-10 lg:flex xl:p-14"
             aria-label="Hotel branding and welcome message"
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"
+              aria-hidden="true"
+            />
 
             <div className="relative z-10 max-w-md">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-md">
-                <Sparkles className="h-3.5 w-3.5 text-[#d8bd7c]" aria-hidden="true" />
+                <Sparkles
+                  className="h-3.5 w-3.5 text-[#d8bd7c]"
+                  aria-hidden="true"
+                />
                 StayCation
               </div>
 
@@ -105,12 +114,18 @@ export default function LoginForm() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-md">
-                  <ShieldCheck className="h-4 w-4 text-[#c8d4c4]" aria-hidden="true" />
+                  <ShieldCheck
+                    className="h-4 w-4 text-[#c8d4c4]"
+                    aria-hidden="true"
+                  />
                   Secure booking
                 </div>
 
                 <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-md">
-                  <Hotel className="h-4 w-4 text-[#c8d4c4]" aria-hidden="true" />
+                  <Hotel
+                    className="h-4 w-4 text-[#c8d4c4]"
+                    aria-hidden="true"
+                  />
                   Exceptional stays
                 </div>
               </div>
@@ -118,13 +133,16 @@ export default function LoginForm() {
           </section>
 
           {/* Right / Login Form */}
-          <section 
+          <section
             className="flex items-center bg-[#faf9f6]/95 px-5 py-10 sm:px-10 sm:py-12 lg:px-12 xl:px-16"
             aria-label="Login form"
           >
             <div className="mx-auto w-full max-w-md">
               {/* Mobile Brand */}
-              <div className="mb-8 flex items-center justify-center lg:hidden" aria-hidden="true">
+              <div
+                className="mb-8 flex items-center justify-center lg:hidden"
+                aria-hidden="true"
+              >
                 <Link href="/" className="flex items-center gap-2.5">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4e604f] text-white shadow-md">
                     <Hotel className="h-5 w-5" />
@@ -139,7 +157,10 @@ export default function LoginForm() {
               {/* Header */}
               <div>
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#4e604f]/15 bg-[#4e604f]/5 px-3 py-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#4e604f]" aria-hidden="true" />
+                  <span
+                    className="h-1.5 w-1.5 rounded-full bg-[#4e604f]"
+                    aria-hidden="true"
+                  />
                   <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#4e604f]">
                     Guest Account
                   </span>
@@ -164,7 +185,7 @@ export default function LoginForm() {
               >
                 {/* Email */}
                 <div>
-                  <label 
+                  <label
                     htmlFor="email"
                     className="mb-2 block text-xs font-semibold uppercase tracking-wide text-[#303530]"
                   >
@@ -172,9 +193,9 @@ export default function LoginForm() {
                   </label>
 
                   <div className="group relative">
-                    <Mail 
-                      className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#899189] transition-colors group-focus-within:text-[#4e604f]" 
-                      aria-hidden="true" 
+                    <Mail
+                      className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#899189] transition-colors group-focus-within:text-[#4e604f]"
+                      aria-hidden="true"
                     />
 
                     <input
@@ -184,7 +205,9 @@ export default function LoginForm() {
                       autoComplete="email"
                       aria-required="true"
                       aria-invalid={!!errors.email}
-                      aria-describedby={errors.email ? "email-error" : undefined}
+                      aria-describedby={
+                        errors.email ? "email-error" : undefined
+                      }
                       {...register("email")}
                       className={`h-12 w-full rounded-xl border bg-white pl-11 pr-4 text-sm text-[#202420] outline-none transition-all placeholder:text-[#a2a8a2] ${
                         errors.email
@@ -195,7 +218,7 @@ export default function LoginForm() {
                   </div>
 
                   {errors.email && (
-                    <p 
+                    <p
                       id="email-error"
                       className="mt-1.5 text-xs font-medium text-red-500"
                       role="alert"
@@ -208,7 +231,7 @@ export default function LoginForm() {
                 {/* Password */}
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <label 
+                    <label
                       htmlFor="password"
                       className="block text-xs font-semibold uppercase tracking-wide text-[#303530]"
                     >
@@ -225,9 +248,9 @@ export default function LoginForm() {
                   </div>
 
                   <div className="group relative">
-                    <Lock 
-                      className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#899189] transition-colors group-focus-within:text-[#4e604f]" 
-                      aria-hidden="true" 
+                    <Lock
+                      className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#899189] transition-colors group-focus-within:text-[#4e604f]"
+                      aria-hidden="true"
                     />
 
                     <input
@@ -237,7 +260,9 @@ export default function LoginForm() {
                       autoComplete="current-password"
                       aria-required="true"
                       aria-invalid={!!errors.password}
-                      aria-describedby={errors.password ? "password-error" : undefined}
+                      aria-describedby={
+                        errors.password ? "password-error" : undefined
+                      }
                       {...register("password")}
                       className={`h-12 w-full rounded-xl border bg-white pl-11 pr-12 text-sm text-[#202420] outline-none transition-all placeholder:text-[#a2a8a2] ${
                         errors.password
@@ -248,12 +273,17 @@ export default function LoginForm() {
 
                     <button
                       type="button"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
                       onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-2 text-[#899189] transition-colors hover:bg-[#4e604f]/5 hover:text-[#4e604f] focus:outline-none focus:ring-2 focus:ring-[#4e604f]/50"
                     >
                       {showPassword ? (
-                        <EyeOff className="h-[18px] w-[18px]" aria-hidden="true" />
+                        <EyeOff
+                          className="h-[18px] w-[18px]"
+                          aria-hidden="true"
+                        />
                       ) : (
                         <Eye className="h-[18px] w-[18px]" aria-hidden="true" />
                       )}
@@ -261,7 +291,7 @@ export default function LoginForm() {
                   </div>
 
                   {errors.password && (
-                    <p 
+                    <p
                       id="password-error"
                       className="mt-1.5 text-xs font-medium text-red-500"
                       role="alert"
@@ -276,24 +306,32 @@ export default function LoginForm() {
                   type="submit"
                   disabled={isSubmitting}
                   className="group mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#4e604f] text-sm font-semibold text-white shadow-lg shadow-[#4e604f]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#3f503f] hover:shadow-xl hover:shadow-[#4e604f]/25 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 focus:outline-none focus:ring-2 focus:ring-[#4e604f] focus:ring-offset-2 focus:ring-offset-white"
-                  aria-label={isSubmitting ? "Signing in..." : "Sign in to your account"}
+                  aria-label={
+                    isSubmitting ? "Signing in..." : "Sign in to your account"
+                  }
                 >
                   {isSubmitting ? (
                     <>
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden="true" />
+                      <span
+                        className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+                        aria-hidden="true"
+                      />
                       Signing in...
                     </>
                   ) : (
                     <>
                       <LogIn className="h-4 w-4" aria-hidden="true" />
                       Sign in
-                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true" />
+                      <ArrowRight
+                        className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
                     </>
                   )}
                 </button>
 
                 {/* Security note */}
-                <div 
+                <div
                   className="flex items-center justify-center gap-2 pt-1 text-center text-[11px] text-[#687068]"
                   aria-hidden="true"
                 >
@@ -321,7 +359,10 @@ export default function LoginForm() {
                   aria-label="Create a new account"
                 >
                   Create an account
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
                 </Link>
 
                 {/* Footer */}

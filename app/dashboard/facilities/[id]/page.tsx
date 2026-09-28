@@ -1,29 +1,82 @@
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { notFound } from "next/navigation";
 import FacilityDetails from "@/features/admin/facilities/components/FacilityDetails";
 import { viewFacilityAdminService } from "@/features/admin/facilities/services/facility.service";
-import { Suspense } from "react";
+import FacilitySkeleton from "@/Shared/Components/admin/FacilitySkeleton";
+
+/* ============ Types ============ */
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-function FacilitySkeleton() {
-  return (
-    <div className="space-y-4">
-      <div className="h-40 animate-pulse rounded-3xl bg-[#F4F6F2]" />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="h-20 animate-pulse rounded-2xl bg-[#F4F6F2]" />
-        ))}
-      </div>
-    </div>
-  );
+/* ============ Metadata ============ */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  try {
+    const { id } = await params;
+    const response = await viewFacilityAdminService(id);
+    const facility = response?.data?.facility;
+
+    if (!facility) {
+      return {
+        title: "Facility Not Found",
+        description: "The requested facility could not be found.",
+        robots: { index: false, follow: false },
+      };
+    }
+
+    const title = facility.name;
+    const description = `Manage the "${facility.name}" facility. Created by ${
+      facility.createdBy?.userName ?? "Unknown"
+    }.`;
+
+    return {
+      title,
+      description,
+      robots: {
+        index: false,
+        follow: false,
+      },
+      openGraph: {
+        title,
+        description,
+        type: "website",
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
+      },
+    };
+  } catch {
+    return {
+      title: "Facility Not Found",
+      description: "The requested facility could not be found.",
+      robots: { index: false, follow: false },
+    };
+  }
 }
 
+/* ============ Data ============ */
 async function Facility({ params }: Props) {
   const { id } = await params;
-  const facility = await viewFacilityAdminService(id);
-  return <FacilityDetails facility={facility.data.facility} />;
+
+  try {
+    const response = await viewFacilityAdminService(id);
+    const facility = response?.data?.facility;
+
+    if (!facility) {
+      notFound();
+    }
+
+    return <FacilityDetails facility={facility} />;
+  } catch (error) {
+    console.error("Failed to fetch facility:", error);
+    notFound();
+  }
 }
 
+/* ============ Page ============ */
 export default function FacilityDetailsPage({ params }: Props) {
   return (
     <div className="mx-auto max-w-3xl p-6">

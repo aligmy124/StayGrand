@@ -29,7 +29,7 @@ type DashboardNavbarProps = {
 };
 
 export default function DashboardNavbar({ user }: DashboardNavbarProps) {
-     console.log('DashboardNavbar user:', user);
+     
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);

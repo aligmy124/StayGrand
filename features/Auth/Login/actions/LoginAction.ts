@@ -19,7 +19,7 @@ export async function loginAction(data: LoginFormData) {
     const res = await loginServices(result.data);
 
     await setToken(res.data.token);
-    console.log("login res", res)
+
 
     return {
       success: true,
