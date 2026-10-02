@@ -104,7 +104,7 @@ export default async function Footer() {
               </Link>
 
               <Link
-                href="/portal/ads"
+                href="/ads"
                 className="group inline-flex items-center gap-2 rounded-xl border border-[#4E604F]/15 bg-white px-4 py-2.5 text-sm font-semibold text-[#4E604F] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#4E604F]/30 hover:shadow-md"
               >
                 Special Deals
