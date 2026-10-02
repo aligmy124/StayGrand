@@ -1,5 +1,3 @@
-// Shared/Components/Container.tsx
-
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;

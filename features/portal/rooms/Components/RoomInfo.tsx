@@ -1,5 +1,3 @@
-// features/rooms/Components/RoomInfo.tsx
-
 import Link from "next/link";
 import {
   ArrowLeft,

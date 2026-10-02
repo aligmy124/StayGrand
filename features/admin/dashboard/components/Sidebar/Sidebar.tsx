@@ -1,4 +1,3 @@
-// components/Sidebar.tsx
 
 "use client";
 
@@ -10,7 +9,6 @@ import {
   Building2,
   CalendarCheck,
   Users,
-  LogOut,
   X,
   Menu,
   ChevronLeft,
@@ -19,17 +17,31 @@ import {
   Megaphone,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import LogoutButton from "@/features/Auth/logout/components/LogoutButton";
 const navItems = [
   {
-    section: "Main",
+    section: "Overview",
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    ],
+  },
+  {
+    section: "Operations",
+    items: [
       { name: "Bookings", href: "/dashboard/bookings", icon: CalendarCheck },
       { name: "Rooms", href: "/dashboard/rooms", icon: Building2 },
+      { name: "Facilities", href: "/dashboard/facilities", icon: Sparkles },
+    ],
+  },
+  {
+    section: "Marketing",
+    items: [
       { name: "Ads", href: "/dashboard/ads", icon: Megaphone },
+    ],
+  },
+  {
+    section: "Management",
+    items: [
       { name: "Users", href: "/dashboard/users", icon: Users },
-      { name: "Facilities", href: "/dashboard/facilities", icon: Sparkles},
     ],
   },
 ];
@@ -187,15 +199,6 @@ export default function Sidebar() {
             ))}
           </nav>
 
-          {/* Bottom Section */}
-          <div className="border-t border-[#E4E7E2] p-3">
-            {/* Logout */}
-            <div
-              className={`flex items-center ${isCollapsed ? "lg:justify-center" : "gap-3"} rounded-xl px-2 py-1`}
-            >
-              {isCollapsed ? <LogoutButton /> : <LogoutButton />}
-            </div>
-          </div>
 
           {/* Collapse Toggle - Desktop Only */}
           <button

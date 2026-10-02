@@ -1,4 +1,3 @@
-// features/Reviews/Components/ReviewList.tsx
 import {
   Star,
   Users,

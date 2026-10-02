@@ -1,45 +1,4 @@
-// import { ApiError } from "../api-error/ApiError";
-// import { getToken } from "../cookies/cookies";
 
-// const BASE_URL = process.env.BASE_URL;
-
-// export async function apiFetch<T>(
-//   endpoint: string,
-//   options: RequestInit = {},
-// ): Promise<T> {
-//   const isFormData = options.body instanceof FormData;
-//   const token = await getToken();
-//   const res = await fetch(`${BASE_URL}${endpoint}`, {
-//     ...options,
-//     headers: {
-//       ...(isFormData ? {} : { "Content-Type": "application/json" }),
-//       ...(token && {
-//         Authorization: `Bearer ${token}`,
-//       }),
-//       ...options.headers,
-//     },
-//   });
-//   if (!res.ok) {
-//     let errorBody: { message?: string; fieldErrors?: Record<string, string> } =
-//       {};
-//     try {
-//       errorBody = await res.json();
-//     } catch {
-//       errorBody = { message: res.statusText || "Unknown Error" };
-//     }
-//     throw new ApiError(
-//       res.status,
-//       errorBody.message ?? "Request failed",
-//       errorBody.fieldErrors,
-//     );
-//   }
-//   if (res.status === 204) {
-//     return undefined as T;
-//   }
-
-//   const text = await res.text();
-//   return (text ? JSON.parse(text) : undefined) as T;
-// }
 import { ApiError } from "../api-error/ApiError";
 import { getToken } from "../cookies/cookies";
 

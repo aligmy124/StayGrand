@@ -1,4 +1,3 @@
-// features/rooms/Components/RoomGallery.tsx
 "use client";
 
 import Image from "next/image";

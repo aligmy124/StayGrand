@@ -25,7 +25,7 @@ export const updateRoomAction = async (id: string, formData: FormData) => {
       };
     }
 
-    // ✅ ابعت الـ formData زي ما هي — لو فيها imgs هيتبعتوا، لو لأ مش هيتبعتوا
+    
     const response = await updateRoomAdminService(id, formData);
 
     revalidatePath("/admin/dashboard/rooms");

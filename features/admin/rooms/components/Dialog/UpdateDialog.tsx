@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Trash2, UploadCloud, ImagePlus } from "lucide-react";
+import { Trash2, UploadCloud, ImagePlus, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -57,7 +57,7 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
     },
   });
 
-    useEffect(() => {
+  useEffect(() => {
     if (!room) return;
 
     reset({
@@ -117,10 +117,8 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
     formData.append("discount", data.discount.toString());
     formData.append("capacity", data.capacity.toString());
 
-    // ✅ الـ facilities المختارة بس
     data.facilities.forEach((f) => formData.append("facilities[]", f));
 
-    // ✅ الصور الجديدة بس — لو مفيش، مش بنبعت حقل imgs خالص
     newFiles.forEach((file) => formData.append("imgs", file));
 
     const result = await updateRoomAction(room?._id!, formData);
@@ -129,7 +127,6 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
       toast.error(result.message);
       if (result.fieldErrors) {
         Object.entries(result.fieldErrors).forEach(([key, value]) => {
-          // ✅ تحقق إن الـ key موجود في الـ form قبل setError
           if (key in data) {
             setError(key as keyof UpdateFormInput, {
               message: value.join(", "),
@@ -147,72 +144,124 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-0 gap-0 border-[#E4E7E2] shadow-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader>
-            <DialogTitle>Edit Room</DialogTitle>
-            <DialogDescription>
+          {/* Header */}
+          <DialogHeader className="px-6 pt-6 pb-4 border-b border-[#EEF0EC] bg-gradient-to-b from-[#FAFBF9] to-white">
+            <DialogTitle className="text-lg font-semibold text-[#1B1C1C] tracking-tight">
+              Edit Room
+            </DialogTitle>
+            <DialogDescription className="text-sm text-[#666B65]">
               Update room details and click save.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4 py-4">
+          <div className="grid gap-5 px-6 py-5">
             {/* Room Number */}
-            <div>
-              <Label htmlFor="roomNumber">Room Number</Label>
-              <Input id="roomNumber" {...register("roomNumber")} />
+            <div className="space-y-1.5">
+              <Label
+                htmlFor="roomNumber"
+                className="text-xs font-semibold uppercase tracking-wide text-[#4E604F]"
+              >
+                Room Number
+              </Label>
+              <Input
+                id="roomNumber"
+                {...register("roomNumber")}
+                className={`h-10 rounded-xl border-[#E4E7E2] bg-white transition-colors focus-visible:border-[#4E604F] focus-visible:ring-2 focus-visible:ring-[#4E604F]/20 ${
+                  errors.roomNumber ? "border-red-400 focus-visible:border-red-400 focus-visible:ring-red-400/20" : ""
+                }`}
+              />
               {errors.roomNumber && (
-                <p className="text-xs text-red-500 mt-1">
+                <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                   {errors.roomNumber.message}
                 </p>
               )}
             </div>
 
-            {/* Price */}
-            <div>
-              <Label htmlFor="price">Price</Label>
-              <Input id="price" type="string" {...register("price")} />
-              {errors.price && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.price.message}
-                </p>
-              )}
-            </div>
+            {/* Price + Discount + Capacity */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="price"
+                  className="text-xs font-semibold uppercase tracking-wide text-[#4E604F]"
+                >
+                  Price
+                </Label>
+                <Input
+                  id="price"
+                  type="string"
+                  {...register("price")}
+                  className={`h-10 rounded-xl border-[#E4E7E2] bg-white transition-colors focus-visible:border-[#4E604F] focus-visible:ring-2 focus-visible:ring-[#4E604F]/20 ${
+                    errors.price ? "border-red-400 focus-visible:border-red-400 focus-visible:ring-red-400/20" : ""
+                  }`}
+                />
+                {errors.price && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.price.message}
+                  </p>
+                )}
+              </div>
 
-            {/* Discount */}
-            <div>
-              <Label htmlFor="discount">Discount</Label>
-              <Input id="discount" type="string" {...register("discount")} />
-              {errors.discount && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.discount.message}
-                </p>
-              )}
-            </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="discount"
+                  className="text-xs font-semibold uppercase tracking-wide text-[#4E604F]"
+                >
+                  Discount
+                </Label>
+                <Input
+                  id="discount"
+                  type="string"
+                  {...register("discount")}
+                  className={`h-10 rounded-xl border-[#E4E7E2] bg-white transition-colors focus-visible:border-[#4E604F] focus-visible:ring-2 focus-visible:ring-[#4E604F]/20 ${
+                    errors.discount ? "border-red-400 focus-visible:border-red-400 focus-visible:ring-red-400/20" : ""
+                  }`}
+                />
+                {errors.discount && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.discount.message}
+                  </p>
+                )}
+              </div>
 
-            {/* Capacity */}
-            <div>
-              <Label htmlFor="capacity">Capacity</Label>
-              <Input id="capacity" type="string" {...register("capacity")} />
-              {errors.capacity && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.capacity.message}
-                </p>
-              )}
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="capacity"
+                  className="text-xs font-semibold uppercase tracking-wide text-[#4E604F]"
+                >
+                  Capacity
+                </Label>
+                <Input
+                  id="capacity"
+                  type="string"
+                  {...register("capacity")}
+                  className={`h-10 rounded-xl border-[#E4E7E2] bg-white transition-colors focus-visible:border-[#4E604F] focus-visible:ring-2 focus-visible:ring-[#4E604F]/20 ${
+                    errors.capacity ? "border-red-400 focus-visible:border-red-400 focus-visible:ring-red-400/20" : ""
+                  }`}
+                />
+                {errors.capacity && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.capacity.message}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* Facilities */}
-            <div>
-              <Label>Facilities</Label>
+            <div className="space-y-2">
+              <Label className="text-xs font-semibold uppercase tracking-wide text-[#4E604F]">
+                Facilities
+              </Label>
               <Controller
                 control={control}
                 name="facilities"
                 render={({ field }) => {
                   const selected = (field.value ?? []) as string[];
                   return (
-                    <div className="mt-2 flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {allFacilities.length === 0 && (
-                        <p className="text-xs text-[#8A9189]">
+                        <p className="text-xs text-[#8A9189] italic">
                           No facilities available.
                         </p>
                       )}
@@ -228,21 +277,21 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
                                 : [...selected, f._id];
                               field.onChange(next);
                             }}
-                            className={`inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium transition-all ${
+                            className={`group inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-200 active:scale-95 ${
                               isSelected
-                                ? "border-[#4E604F] bg-[#F0F3EE] text-[#4E604F] shadow-sm"
-                                : "border-[#E4E7E2] bg-white text-[#666B65] hover:border-[#4E604F]/40 hover:bg-[#F8F9F7]"
+                                ? "border-[#4E604F] bg-[#4E604F] text-white shadow-sm shadow-[#4E604F]/20"
+                                : "border-[#E4E7E2] bg-white text-[#666B65] hover:border-[#4E604F]/40 hover:bg-[#F8F9F7] hover:text-[#4E604F]"
                             }`}
                           >
                             <span
-                              className={`flex h-3.5 w-3.5 items-center justify-center rounded-full border transition-colors ${
+                              className={`flex h-3.5 w-3.5 items-center justify-center rounded-full border transition-all ${
                                 isSelected
-                                  ? "border-[#4E604F] bg-[#4E604F]"
-                                  : "border-[#C4C9C2]"
+                                  ? "border-white bg-white"
+                                  : "border-[#C4C9C2] group-hover:border-[#4E604F]"
                               }`}
                             >
                               {isSelected && (
-                                <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                                <Check className="h-2.5 w-2.5 text-[#4E604F]" strokeWidth={3} />
                               )}
                             </span>
                             {f.name}
@@ -254,33 +303,33 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
                 }}
               />
               {errors.facilities && (
-                <p className="mt-2 text-xs text-red-500">
+                <p className="text-xs text-red-500 mt-1">
                   {errors.facilities.message}
                 </p>
               )}
             </div>
 
             {/* ============ Images Section ============ */}
-            <div>
-              <Label className="flex items-center gap-1.5">
-                <ImagePlus className="h-3.5 w-3.5 text-[#8A9189]" />
+            <div className="space-y-2 rounded-2xl border border-[#EEF0EC] bg-[#FAFBF9] p-4">
+              <Label className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-[#4E604F]">
+                <ImagePlus className="h-3.5 w-3.5" />
                 Update Images
-                <span className="text-[10px] font-normal text-[#8A9189]">
+                <span className="text-[10px] font-normal normal-case tracking-normal text-[#8A9189]">
                   (Optional)
                 </span>
               </Label>
 
-              {/* Current Images (preview بس، مش بتتبعت) */}
+              {/* Current Images */}
               {room?.images && room.images.length > 0 && (
-                <div className="mt-2">
-                  <p className="mb-1.5 text-[10px] text-[#8A9189]">
-                    Current images ({room.images.length})
+                <div>
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#8A9189]">
+                    Current · {room.images.length}
                   </p>
                   <div className="grid grid-cols-4 gap-2">
                     {room.images.map((img, i) => (
                       <div
                         key={i}
-                        className="relative aspect-square overflow-hidden rounded-lg border border-[#E4E7E2] opacity-60"
+                        className="relative aspect-square overflow-hidden rounded-xl border border-[#E4E7E2] bg-white opacity-60 ring-1 ring-black/5"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -310,12 +359,12 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
                   );
                   if (dropped.length) addFiles(dropped);
                 }}
-                className={`mt-2 cursor-pointer rounded-lg border-2 border-dashed p-4 text-center transition-all ${
+                className={`group mt-1 cursor-pointer rounded-xl border-2 border-dashed p-5 text-center transition-all duration-200 ${
                   isDragging
-                    ? "border-[#4E604F] bg-[#F0F3EE]"
+                    ? "border-[#4E604F] bg-[#F0F3EE] scale-[1.01]"
                     : newFiles.length
-                      ? "border-[#4E604F]/60 bg-[#F8F9F7]"
-                      : "border-[#E4E7E2] bg-[#FAFBF9] hover:border-[#4E604F]/40"
+                      ? "border-[#4E604F]/60 bg-white"
+                      : "border-[#E4E7E2] bg-white hover:border-[#4E604F]/40 hover:bg-[#F8F9F7]"
                 }`}
               >
                 <input
@@ -330,8 +379,10 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
                     e.target.value = "";
                   }}
                 />
-                <UploadCloud className="mx-auto h-5 w-5 text-[#4E604F]" />
-                <p className="mt-2 text-xs font-medium text-[#1B1C1C]">
+                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#F0F3EE] transition-transform group-hover:scale-105">
+                  <UploadCloud className="h-5 w-5 text-[#4E604F]" />
+                </div>
+                <p className="mt-2.5 text-xs font-semibold text-[#1B1C1C]">
                   {newFiles.length
                     ? "Add more images"
                     : "Upload new images to replace current ones"}
@@ -343,15 +394,15 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
 
               {/* New Files Previews */}
               {previews.length > 0 && (
-                <div className="mt-3">
+                <div className="pt-1">
                   <div className="mb-2 flex items-center justify-between">
-                    <p className="text-[10px] font-semibold text-[#1B1C1C]">
-                      New Images ({previews.length})
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-[#4E604F]">
+                      New · {previews.length}
                     </p>
                     <button
                       type="button"
                       onClick={clearAll}
-                      className="text-[10px] font-medium text-red-500 hover:underline"
+                      className="text-[10px] font-semibold text-red-500 hover:text-red-600 hover:underline transition-colors"
                     >
                       Clear All
                     </button>
@@ -360,20 +411,22 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
                     {previews.map((src, i) => (
                       <div
                         key={i}
-                        className="group relative aspect-square overflow-hidden rounded-lg border border-[#4E604F]/40"
+                        className="group relative aspect-square overflow-hidden rounded-xl border border-[#4E604F]/40 bg-white ring-1 ring-[#4E604F]/10"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={src}
                           alt={`new-${i}`}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                         <button
                           type="button"
                           onClick={() => removeFile(i)}
-                          className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity hover:bg-red-500 group-hover:opacity-100"
+                          className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/70 text-white opacity-0 backdrop-blur-sm transition-all duration-200 hover:bg-red-500 hover:scale-110 group-hover:opacity-100 active:scale-95"
+                          aria-label="Remove image"
                         >
-                          <Trash2 className="h-2.5 w-2.5" />
+                          <Trash2 className="h-3 w-3" />
                         </button>
                       </div>
                     ))}
@@ -383,16 +436,32 @@ export function UpdateDialog({ open, onOpenChange, room, rooms }: IUpdateRoom) {
             </div>
           </div>
 
-          <DialogFooter className="gap-2">
+          <DialogFooter className="gap-2 border-t border-[#EEF0EC] bg-[#FAFBF9] px-6 py-4 rounded-b-2xl">
             <DialogClose
               render={
-                <Button type="button" variant="outline" disabled={isSubmitting}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={isSubmitting}
+                  className="rounded-xl border-[#E4E7E2] hover:bg-white hover:border-[#4E604F]/40"
+                >
                   Cancel
                 </Button>
               }
             />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-xl bg-[#4E604F] hover:bg-[#3F5040] shadow-sm shadow-[#4E604F]/20 transition-all active:scale-[0.98] min-w-[120px]"
+            >
+              {isSubmitting ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </span>
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </DialogFooter>
         </form>

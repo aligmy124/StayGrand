@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-// import { useRouter } from 'next/navigation'
+
 import { ArrowRight, Sparkles } from 'lucide-react'
 
 export default function FeaturedHotelsHeader() {
-//   const router = useRouter()
+
 
   return (
     <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">

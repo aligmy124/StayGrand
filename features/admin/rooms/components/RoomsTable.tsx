@@ -358,7 +358,7 @@ export default function RoomsTable({ rooms }: IRoomProps) {
                             className="absolute right-0 top-full z-20 mt-1 w-40 overflow-hidden rounded-xl border border-[#E4E7E2] bg-white shadow-lg"
                           >
                             <Link
-                              href={`/rooms/${room._id}`}
+                              href={`/dashboard/rooms/${room._id}`}
                               className="flex items-center gap-2 px-3 py-2 text-sm text-[#4E604F] hover:bg-[#F4F6F2]"
                             >
                               <Eye className="h-3.5 w-3.5" />

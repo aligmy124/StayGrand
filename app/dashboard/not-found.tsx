@@ -1,4 +1,3 @@
-// app/admin/dashboard/not-found.tsx
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Search, LayoutDashboard } from "lucide-react";

@@ -1,4 +1,3 @@
-// components/DashboardNavbar.tsx
 
 "use client";
 
@@ -8,10 +7,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
   User,
-  Settings,
-  LogOut,
-  Shield,
-  HelpCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import LogoutButton from "@/features/Auth/logout/components/LogoutButton";
@@ -60,15 +55,32 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
   }, [pathname]);
 
   // Generate page title from pathname
-  const getPageTitle = () => {
-    const segments = pathname.split("/").filter(Boolean);
-    if (segments.length === 0) return "Dashboard";
-    const last = segments[segments.length - 1];
-    return last
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
+const routeTitles: Record<string, string> = {
+  "/dashboard": "Dashboard",
+  "/dashboard/bookings": "Bookings",
+  "/dashboard/rooms": "Rooms",
+  "/dashboard/ads": "Ads",
+  "/dashboard/users": "Users",
+  "/dashboard/facilities": "Facilities",
+};
+
+const getPageTitle = () => {
+  // ابحث عن أطول match
+  const match = Object.keys(routeTitles)
+    .filter((route) => pathname.startsWith(route))
+    .sort((a, b) => b.length - a.length)[0];
+
+  if (match) return routeTitles[match];
+
+  // fallback للسلوك القديم
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments.length === 0) return "Dashboard";
+  const last = segments[segments.length - 1];
+  return last
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+};
 
   return (
     <header
@@ -144,25 +156,7 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                         Profile
                       </Link>
 
-                      <Link
-                        href="/dashboard/settings"
-                        onClick={() => setIsDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 text-sm text-[#4E604F] hover:bg-[#F4F6F2] transition-colors"
-                      >
-                        <Settings className="h-3.5 w-3.5" />
-                        Settings
-                      </Link>
-
-                      <Link
-                        href="/help"
-                        onClick={() => setIsDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 text-sm text-[#4E604F] hover:bg-[#F4F6F2] transition-colors"
-                      >
-                        <HelpCircle className="h-3.5 w-3.5" />
-                        Help
-                      </Link>
-
-                      {user.role === "admin" && (
+                      {/* {user.role === "admin" && (
                         <Link
                           href="/dashboard/admin"
                           onClick={() => setIsDropdownOpen(false)}
@@ -171,7 +165,7 @@ export default function DashboardNavbar({ user }: DashboardNavbarProps) {
                           <Shield className="h-3.5 w-3.5" />
                           Admin Panel
                         </Link>
-                      )}
+                      )} */}
 
                       <div className="border-t border-[#F4F6F2] mt-1 pt-1 px-1">
                         <LogoutButton />

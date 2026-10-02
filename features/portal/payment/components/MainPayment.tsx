@@ -19,9 +19,6 @@ interface PaymentPageProps {
 export default function PaymentPage({ bookingId }: PaymentPageProps) {
   const router = useRouter();
 
-  /* ❌ شيل useParams خالص */
-  // const params = useParams();
-  // const bookingId = params.id as string;
 
   const [roomId, setRoomId] = useState<string | null>(null);
   const [step, setStep] = useState<1 | 2>(1);

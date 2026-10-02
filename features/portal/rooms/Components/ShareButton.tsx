@@ -1,4 +1,3 @@
-// features/rooms/Components/ShareButton.tsx
 "use client";
 
 import { Share2, Check } from "lucide-react";

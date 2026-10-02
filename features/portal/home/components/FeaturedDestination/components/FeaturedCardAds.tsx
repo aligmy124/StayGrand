@@ -19,10 +19,8 @@ interface FeaturedCardAdsProps {
   ads: IAds[];
 }
 
-/* ============ Layout Pattern ============ */
-/* كل كارت له حجم مختلف حسب مكانه */
 const CARD_LAYOUT = [
-  // الكارت 1 — Hero (2x2)
+
   {
     colSpan: "lg:col-span-2",
     rowSpan: "lg:row-span-2",
@@ -32,7 +30,6 @@ const CARD_LAYOUT = [
     isFeatured: true,
     showExtras: true,
   },
-  // الكارت 2 — Wide (2x1)
   {
     colSpan: "lg:col-span-2",
     rowSpan: "lg:row-span-1",
@@ -42,7 +39,6 @@ const CARD_LAYOUT = [
     isFeatured: true,
     showExtras: false,
   },
-  // الكارت 3 — Tall (1x1)
   {
     colSpan: "lg:col-span-1",
     rowSpan: "lg:row-span-1",
@@ -52,7 +48,7 @@ const CARD_LAYOUT = [
     isFeatured: false,
     showExtras: false,
   },
-  // الكارت 4 — Small (1x1)
+
   {
     colSpan: "lg:col-span-1",
     rowSpan: "lg:row-span-1",
@@ -62,7 +58,6 @@ const CARD_LAYOUT = [
     isFeatured: false,
     showExtras: false,
   },
-  // الكارت 5 — Wide (2x1)
   {
     colSpan: "lg:col-span-2",
     rowSpan: "lg:row-span-1",

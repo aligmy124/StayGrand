@@ -1,5 +1,3 @@
-// components/DashboardSkeleton.tsx
-
 export function DashboardSkeleton() {
   return (
     <div className="space-y-6 animate-pulse">

@@ -79,7 +79,7 @@ async function Facility({ params }: Props) {
 /* ============ Page ============ */
 export default function FacilityDetailsPage({ params }: Props) {
   return (
-    <div className="mx-auto max-w-3xl p-6">
+    <div className="mx-auto max-w-7xl p-6">
       <Suspense fallback={<FacilitySkeleton />}>
         <Facility params={params} />
       </Suspense>
